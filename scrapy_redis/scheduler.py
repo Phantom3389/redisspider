@@ -170,9 +170,9 @@ class Scheduler(object):
         if request is None:
             self.lostGetRequest += 1
             # 100个大概8分钟的样子
-            if self.lostGetRequest > 200:
+            if self.lostGetRequest > 10:
                 self.lostGetRequest = 0
-                self.server.lpush("jobbole:start_urls", "http://blog.jobbole.com/all-posts/")
+                self.server.lpush(self.spider.name+":start_urls", "http://blog.jobbole.com/all-posts/")
         return request
 
     def has_pending_requests(self):

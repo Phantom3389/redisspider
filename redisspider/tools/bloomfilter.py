@@ -30,8 +30,8 @@ class PyBloomFilter():
         self.key = key
         self.N = 2**31-1
         self.redis = conn
-        print(self.mem)
-        print(self.k)
+        #print(self.mem)
+        #print(self.k)
 
     def add(self, value):
         name = self.key + "_" + str(ord(value[0])%self.blocknum)
@@ -64,7 +64,3 @@ conn = redis.StrictRedis(connection_pool=pool)
 if __name__ == "__main__":
     start = time.time()
     bf = PyBloomFilter(conn=conn)
-    bf.add('www.jobbole.com')
-    bf.add('www.zhihu.com')
-    print(bf.is_exist('www.zhihu.com'))
-    print(bf.is_exist('www.lagou.com'))

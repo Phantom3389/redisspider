@@ -6,7 +6,12 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
+from redisspider.UserAgent import agents
+from redisspider.cookies import init_cookie,update_cookie
+from redisspider.settings import REDIS_URL
+import random
+import redis
+import json
 
 class RedisspiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -60,6 +65,8 @@ class RedisspiderDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
+    def __init__(self):
+        self.red = redis.Redis.from_url(REDIS_URL, db=2, decode_responses=True)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -78,7 +85,17 @@ class RedisspiderDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
-        return None
+        '''
+        try:
+            if self.red.get("%s:Cookies" % spider.name) is None:
+                init_cookie(self.red, spider.name)
+            cookie_dict = json.loads(self.red.get(spider.name+":Cookies"))
+            request.cookies = cookie_dict
+        except Exception as e:
+            print('error:', e)
+        '''
+        request.headers["User-Agent"] = random.choice(agents)
+        #request.meta["proxy"] = "http://127.0.0.1:8080"
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.

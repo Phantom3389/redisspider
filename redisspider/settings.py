@@ -20,13 +20,15 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 ITEM_PIPELINES = {
     'scrapy_redis.pipelines.RedisPipeline': 300
 }
-
-#REDIS_URL = 'redis://:qwe123@47.52.229.48:6379'
-REDIS_HOST = '127.0.0.1'
+#cookies池redis
+REDIS_URL = 'redis://:@127.0.0.1:6379'
+#调度服务器redis
+REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_PARAMS = {
     'password': '',
 }
+#本地服务器redis
 BF_REDIS_HOST = 'localhost'
 BF_REDIS_PORT = 6379
 BF_REDIS_PARAMS = {
@@ -43,7 +45,8 @@ BF_REDIS_PARAMS = {
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-
+LOG_LEVEL = "INFO"
+#DOWNLOAD_FAIL_ON_DATALOSS = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -75,9 +78,9 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'redisspider.middlewares.RedisspiderDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'redisspider.middlewares.RedisspiderDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
