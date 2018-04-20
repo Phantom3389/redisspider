@@ -77,3 +77,13 @@ class JobBoleItem(scrapy.Item):
         output_processor=Join(",")
     )
     content = scrapy.Field()
+
+
+class TiebaLoader(ItemLoader):
+    # 自定义itemloader
+    default_output_processor = TakeFirst()
+
+
+class TiebaItem(scrapy.Item):
+    url = scrapy.Field()
+    title = scrapy.Field()

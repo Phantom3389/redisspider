@@ -8,7 +8,10 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
+START_URL_DICT= {
+    "jobbloe": "http://blog.jobbole.com/all-posts/",
+    "tieba": "http://tieba.baidu.com/f?kw=%E6%B5%B7%E5%8D%97%E5%A4%A7%E5%AD%A6&ie=utf-8&pn=0"
+}
 BOT_NAME = 'redisspider'
 
 SPIDER_MODULES = ['redisspider.spiders']
@@ -45,7 +48,7 @@ BF_REDIS_PARAMS = {
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-LOG_LEVEL = "INFO"
+#LOG_LEVEL = "INFO"
 #DOWNLOAD_FAIL_ON_DATALOSS = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

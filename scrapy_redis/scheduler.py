@@ -4,6 +4,7 @@ import six
 from scrapy.utils.misc import load_object
 
 from . import connection, defaults
+from redisspider.settings import START_URL_DICT
 
 
 # TODO: add SCRAPY_JOB support.
@@ -170,9 +171,10 @@ class Scheduler(object):
         if request is None:
             self.lostGetRequest += 1
             # 100个大概8分钟的样子
-            if self.lostGetRequest > 10:
+            if self.lostGetRequest > 5:
                 self.lostGetRequest = 0
-                self.server.lpush(self.spider.name+":start_urls", "http://blog.jobbole.com/all-posts/")
+                if self.server.get(self.spider.name+":start_urls") is None:
+                    self.server.lpush(self.spider.name+":start_urls", START_URL_DICT[self.spider.name])
         return request
 
     def has_pending_requests(self):
